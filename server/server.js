@@ -7,6 +7,8 @@ express()
   .use(morgan("tiny"))
   .use(express.json())
 
+  // Here we write our endpoints for the various server requests to the API. Each uses a handler from handlers.js
+
   .listen(PORT, () => {
     console.log(`listening on port: ${PORT}`);
   });
