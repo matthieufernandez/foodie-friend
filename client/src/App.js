@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Login from "./Login";
 import Logout from "./Logout";
-import Profile from "./Profile";
+import ProfileRegistration from "./ProfileRegistration";
+import Registration from "./Registration";
+import Header from "./Header";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const App = () => {
@@ -13,9 +15,8 @@ const App = () => {
   }
   return (
     <>
-      <Login />
-      <Logout />
-      <Profile />
+      <Header />
+      <Registration />
     </>
   );
 };

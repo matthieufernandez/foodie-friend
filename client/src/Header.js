@@ -1,7 +1,114 @@
 import React from "react";
+import styled, { css } from "styled-components";
+import {
+  CgMenuBoxed,
+  CgSmartHomeRefrigerator,
+  CgProfile,
+} from "react-icons/cg";
+import { useHistory } from "react-router-dom";
+import Login from "./Login";
 
 const Header = () => {
-  return <div></div>;
+  return (
+    <>
+      <Desktop>
+        <Nav>
+          <MenuIcons>
+            <RecipeIcon alt="Recipe Book" />
+            <FridgeIcon alt="Your Fridge" />
+          </MenuIcons>
+          <Title>Foodie Friend</Title>
+          <ProfileIcons>
+            <ProfileIcon />
+          </ProfileIcons>
+        </Nav>
+      </Desktop>
+    </>
+  );
 };
+
+// Versions
+const Desktop = styled.div`
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+const Mobile = styled.div`
+  @media only screen and (min-width: 801px) {
+    display: none;
+  }
+`;
+
+// Variable
+const button = css`
+  --fontSizeXl: 40px;
+  --fontSizeLg: 35px;
+  --fontSizeMd: 30px;
+  color: white;
+  font-size: var(--fontSizeXl);
+  @media only screen and (max-width: 1200px) {
+    font-size: var(--fontSizeLg);
+  }
+  @media only screen and (max-width: 800px) {
+    font-size: var(--fontSizeMd);
+  }
+`;
+
+const Nav = styled.nav`
+  width: 100vw;
+  height: 10vh;
+  background-color: #45468a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  @media only screen and (max-width: 800px) {
+    display: flex;
+    justify-content: space-evenly;
+  }
+`;
+
+const RecipeIcon = styled(CgMenuBoxed)`
+  color: #a7a8d9;
+  margin-left: 0;
+  width: 9vw;
+  height: 9vh;
+  cursor: pointer;
+`;
+
+const MenuIcons = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-left: -13vw;
+`;
+
+const ProfileIcons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-right: -10vw;
+`;
+
+const ProfileIcon = styled(CgProfile)`
+  color: #a7a8d9;
+  cursor: pointer;
+  width: 9vw;
+  height: 9vh;
+`;
+
+const FridgeIcon = styled(CgSmartHomeRefrigerator)`
+  color: #a7a8d9;
+  margin-left: -3vw;
+  width: 9vw;
+  height: 9vh;
+  cursor: pointer;
+`;
+
+const Title = styled.h1`
+  color: #e08043;
+  font-size: 32px;
+  font-family: American Typewriter, serif;
+  font-weight: 400;
+  font-style: italic;
+`;
 
 export default Header;
