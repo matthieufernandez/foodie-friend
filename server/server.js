@@ -3,9 +3,14 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 const PORT = 4000;
-const API_KEY = `28afaf869003452db2479b32ccd7dda0`;
+const API_KEY = `bedadb9759e1420fa813aa91f7ed5409`;
 
-const { createUser, checkUser, getUser } = require("./handlers");
+const {
+  createUser,
+  getUser,
+  getIngredient,
+  updateFridge,
+} = require("./handlers");
 
 express()
   .use(morgan("tiny"))
@@ -25,9 +30,12 @@ express()
   })
 
   // Here we write our endpoints for the various server requests to the API. Each uses a handler from handlers.js
-  // .get("/api/fridge/add", addIngredients)
-  .post("/user/create", createUser)
+  .post("/user/create", createUser) // this registers the user in the db
   .get("/user/find/:checkEmail", getUser)
+  .put("/user/update/fridge/:checkEmail", updateFridge)
+
+  //these are our calls to the API
+  .get(`/api/fridge/search/:ingredient`, getIngredient)
 
   // This is our last .get request. It handles incorrect requests and returns an error.
   .get("*", (req, res) => {

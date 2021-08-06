@@ -3,10 +3,13 @@ const { json } = require("body-parser");
 const { MongoClient, ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
 
 require("dotenv").config();
 
 const { MONGO_URI } = process.env;
+
+const { API_KEY } = process.env;
 
 // const options = {
 //   useNewUrlParser = true,
@@ -16,32 +19,6 @@ const { MONGO_URI } = process.env;
 const dbName = "foodie_friend";
 
 //Here we write our handlers for various requests to the API and to MongoDB
-
-const checkUser = async (req, res) => {
-  const client = new MongoClient(MONGO_URI);
-  try {
-    await client.connect();
-    console.log("connecting to database...");
-
-    const db = client.db(dbName);
-
-    const result = await db
-      .collection("users")
-      .findOne({ email: req.body.email });
-
-    result
-      ? res.status(200).json({ status: 200, email: result.email })
-      : res.status(500).json({
-          status: 500,
-          error: "there was an issue finding the requested user",
-        });
-
-    await client.close();
-    console.log("disconnecting from database...");
-  } catch (err) {
-    console.log(err.stack);
-  }
-};
 
 const createUser = async (req, res) => {
   const client = new MongoClient(MONGO_URI);
@@ -71,7 +48,7 @@ const createUser = async (req, res) => {
       console.log("disconnecting from database...");
     }
   } catch (err) {
-    console.log(err.stack);
+    res.status(401).json({ status: 401, error: err });
   }
 };
 
@@ -94,49 +71,68 @@ const getUser = async (req, res) => {
           message: "there was an error fetching the user",
         });
   } catch (err) {
-    console.log(err.stack);
+    res.status(401).json({ status: 401, error: err });
   }
 };
 
-// const createUser = (user, callback) => {
-//   const bcrypt = require("bcrypt");
-//   // const MongoClient = require("mongodb@3.1.4").MongoClient;
-//   const client = new MongoClient(MONGO_URI, options)
-//   console.log(MONGO_URI)
+const getIngredient = async (req, res) => {
+  let searchIngredient = req.params.ingredient;
+  try {
+    await fetch(
+      `https://api.spoonacular.com/food/ingredients/search?query=${searchIngredient}&apiKey=${API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        res.status(200).json({ status: 200, result: data });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({ status: 401, error: err });
+  }
+};
 
-//   client.connect( (err) => {
-//     console.log("connecting...")
-//     if (err) return callback(err);
+const updateFridge = async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+  let userEmail = req.params.checkEmail;
+  try {
+    await client.connect();
+    console.log("connecting to database...");
 
-//     const db = client.db(dbName);
-//     const users = db.collection("users");
+    const db = client.db(dbName);
 
-//     users.findOne({ email: user.email }, function (err, withSameMail) {
-//       if (err || withSameMail) {
-//         client.close();
-//         return callback(err || new Error("the user already exists"));
-//       }
+    const check = await db
+      .collection("users")
+      .findOne({ email: userEmail, fridge: req.body });
 
-//       bcrypt.hash(user.password, 10, function (err, hash) {
-//         if (err) {
-//           client.close();
-//           return callback(err);
-//         }
+    if (!check) {
+      const result = await db.collection("users").findOneAndUpdate(
+        {
+          email: userEmail,
+          fridge: { $ne: req.body }, // failsafe to avoid duplicates
+        },
+        { $push: { fridge: req.body } }
+      );
 
-//         user.password = hash;
-//         users.insert(user, function (err, inserted) {
-//           client.close();
+      result
+        ? res.status(200).json({ status: 200, message: "success" })
+        : res.status(501).json({ status: 501, error: "there was an issue" });
 
-//           if (err) return callback(err);
-//           callback(null);
-//         });
-//       });
-//     });
-//   });
-// };
+      await client.close();
+      console.log("disconnecting from database...");
+    } else {
+      res.status(501).json({ status: 501, error: "duplicate" });
+      await client.close();
+      console.log("disconnecting from database (dupe)");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports = {
-  checkUser,
   createUser,
   getUser,
+  getIngredient,
+  updateFridge,
 };

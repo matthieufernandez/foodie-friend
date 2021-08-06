@@ -11,14 +11,12 @@ export const UserContextProvider = ({ children }) => {
   useEffect(() => {
     const checkEmail = user?.email;
     console.log(checkEmail);
-    fetch(`http://localhost:4000/user/find/${checkEmail}`)
+    fetch(`/user/find/${checkEmail}`)
       .then((res) => res.json())
       .then((data) => setCurrentUser(data.result))
       .then(() => setUserStatus("idle"))
       .catch((err) => console.log(err));
   }, [user]);
-
-  console.log(currentUser);
 
   return (
     <UserContext.Provider

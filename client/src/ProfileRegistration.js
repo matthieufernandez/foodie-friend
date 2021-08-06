@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Logout from "./Logout";
+import { UserContext } from "./UserContext";
 
 const ProfileRegistration = () => {
-  const { user, isAuthenticated } = useAuth0();
+  let history = useHistory();
+  let { user, isAuthenticated } = useAuth0();
+  const { setCurrentUser } = useContext(UserContext);
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const handleRegister = () => {
-    console.log(user);
-    fetch("http://localhost:4000/user/create", {
+  user = { ...user, ...{ fridge: [], recipeBook: [] } };
+
+  const handleRegister = (isRegistered) => {
+    fetch("/user/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,6 +27,7 @@ const ProfileRegistration = () => {
       .catch((err) => console.log("error: ", err));
 
     setIsRegistered(true);
+    setCurrentUser(user);
   };
 
   return !isRegistered ? (
@@ -40,7 +46,10 @@ const ProfileRegistration = () => {
   ) : (
     <>
       <h1>Registration Complete!</h1>
-      <Logout />
+      <p>You can now start adding items to your fridge!</p>
+      <button onClick={() => history.push("/buildfridge")}>
+        Click Here to Continue...
+      </button>
     </>
   );
 };

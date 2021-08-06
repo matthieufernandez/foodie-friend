@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Logout from "./Logout";
 import ProfileRegistration from "./ProfileRegistration";
+import BuildFridge from "./BuildFridge";
 import Registration from "./Registration";
 import Header from "./Header";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,8 +17,15 @@ const App = () => {
   }
   return (
     <>
-      <Header />
-      <Registration />
+      <BrowserRouter>
+        <Header />
+        <Route exact path="/buildfridge">
+          <BuildFridge />
+        </Route>
+        <Route exact path="/">
+          <Registration />
+        </Route>
+      </BrowserRouter>
     </>
   );
 };

@@ -15,6 +15,7 @@ const Header = () => {
         <Nav>
           <MenuIcons>
             <RecipeIcon alt="Recipe Book" />
+
             <FridgeIcon alt="Your Fridge" />
           </MenuIcons>
           <Title>Foodie Friend</Title>
@@ -74,6 +75,12 @@ const RecipeIcon = styled(CgMenuBoxed)`
   width: 9vw;
   height: 9vh;
   cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+    color: #e08043;
+  }
 `;
 
 const MenuIcons = styled.div`
@@ -93,6 +100,12 @@ const ProfileIcon = styled(CgProfile)`
   cursor: pointer;
   width: 9vw;
   height: 9vh;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+    color: #e08043;
+  }
 `;
 
 const FridgeIcon = styled(CgSmartHomeRefrigerator)`
@@ -101,6 +114,12 @@ const FridgeIcon = styled(CgSmartHomeRefrigerator)`
   width: 9vw;
   height: 9vh;
   cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+    color: #e08043;
+  }
 `;
 
 const Title = styled.h1`
