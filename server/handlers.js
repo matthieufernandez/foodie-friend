@@ -113,21 +113,42 @@ const updateFridge = async (req, res) => {
         },
         { $push: { fridge: req.body } }
       );
-
       result
         ? res.status(200).json({ status: 200, message: "success" })
-        : res.status(501).json({ status: 501, error: "there was an issue" });
-
+        : res.status(501).json({ status: 501, message: "there was an issue" });
       await client.close();
       console.log("disconnecting from database...");
     } else {
-      res.status(501).json({ status: 501, error: "duplicate" });
+      res.status(501).json({ status: 501, message: "duplicate" });
       await client.close();
       console.log("disconnecting from database (dupe)");
     }
   } catch (err) {
     console.log(err);
   }
+
+  const getFridge = async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    let userEmail = req.params.checkEmail;
+    try {
+      await client.connect();
+      console.log("connecting to database");
+
+      const db = client.db(dbName);
+
+      const result = await db.collection("users").findOne({
+        email: userEmail,
+      });
+      result
+        ? res.status(200).json({ result: result.fridge })
+        : res.status(501).json({ message: "error" });
+
+      await client.close();
+      console.log("disconnecting from database");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };
 
 module.exports = {

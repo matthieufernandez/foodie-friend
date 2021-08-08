@@ -10,6 +10,7 @@ const {
   getUser,
   getIngredient,
   updateFridge,
+  getFridge,
 } = require("./handlers");
 
 express()
@@ -33,6 +34,7 @@ express()
   .post("/user/create", createUser) // this registers the user in the db
   .get("/user/find/:checkEmail", getUser)
   .put("/user/update/fridge/:checkEmail", updateFridge)
+  // .get("/user/find/fridge/:checkEmail", getFridge)
 
   //these are our calls to the API
   .get(`/api/fridge/search/:ingredient`, getIngredient)

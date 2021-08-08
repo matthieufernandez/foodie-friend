@@ -7,6 +7,8 @@ export const UserContextProvider = ({ children }) => {
   const { user } = useAuth0();
   const [currentUser, setCurrentUser] = useState(null);
   const [userStatus, setUserStatus] = useState("loading");
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isFirstLogin, setIsFirstLogin] = useState(false);
 
   useEffect(() => {
     const checkEmail = user?.email;
@@ -24,6 +26,10 @@ export const UserContextProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         userStatus,
+        isRegistered,
+        setIsRegistered,
+        isFirstLogin,
+        setIsFirstLogin,
       }}
     >
       {children}

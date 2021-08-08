@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled, { css } from "styled-components";
 import {
   CgMenuBoxed,
   CgSmartHomeRefrigerator,
   CgProfile,
 } from "react-icons/cg";
+import { UserContext } from "./UserContext";
 import { useHistory } from "react-router-dom";
-import Login from "./Login";
 
 const Header = () => {
+  let history = useHistory();
+  let { currentUser, userStatus } = useContext(UserContext);
+
+  const handleProfile = () => {
+    if (userStatus === "idle" && currentUser) {
+      history.push(`/profile/${currentUser.nickname}`);
+    } else {
+      history.push("/login");
+    }
+  };
+
+  const handleFridge = () => {
+    history.push("/fridge");
+  };
+
   return (
     <>
       <Desktop>
@@ -16,11 +31,11 @@ const Header = () => {
           <MenuIcons>
             <RecipeIcon alt="Recipe Book" />
 
-            <FridgeIcon alt="Your Fridge" />
+            <FridgeIcon alt="Your Fridge" onClick={handleFridge} />
           </MenuIcons>
           <Title>Foodie Friend</Title>
           <ProfileIcons>
-            <ProfileIcon />
+            <ProfileIcon alt="Your Profile" onClick={handleProfile} />
           </ProfileIcons>
         </Nav>
       </Desktop>

@@ -9,10 +9,10 @@ import { UserContext } from "./UserContext";
 const ProfileRegistration = () => {
   let history = useHistory();
   let { user, isAuthenticated } = useAuth0();
-  const { setCurrentUser } = useContext(UserContext);
-  const [isRegistered, setIsRegistered] = useState(false);
+  const { setCurrentUser, isRegistered, setIsRegistered } =
+    useContext(UserContext);
 
-  user = { ...user, ...{ fridge: [], recipeBook: [] } };
+  user = { ...user, ...{ fridge: [], recipeBook: [], friends: [] } };
 
   const handleRegister = (isRegistered) => {
     fetch("/user/create", {
@@ -47,6 +47,7 @@ const ProfileRegistration = () => {
     <>
       <h1>Registration Complete!</h1>
       <p>You can now start adding items to your fridge!</p>
+      <p>You can also visit your profile or see your recipe book!</p>
       <button onClick={() => history.push("/buildfridge")}>
         Click Here to Continue...
       </button>
