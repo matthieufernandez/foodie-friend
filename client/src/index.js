@@ -4,6 +4,7 @@ import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { UserContextProvider } from "./UserContext";
 import Registration from "./Registration";
+import { FridgeContextProvider } from "./FridgeContext";
 
 require("dotenv").config();
 
@@ -18,7 +19,9 @@ ReactDOM.render(
       redirectUri={window.location.origin}
     >
       <UserContextProvider>
-        <App />
+        <FridgeContextProvider>
+          <App />
+        </FridgeContextProvider>
       </UserContextProvider>
     </Auth0Provider>
   </React.StrictMode>,

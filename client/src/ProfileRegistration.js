@@ -41,7 +41,6 @@ const ProfileRegistration = () => {
       </p>
       {/* <p>{JSON.stringify(user)}</p> */}
       <RegisterButton onClick={handleRegister}>Register</RegisterButton>
-      <Logout />
     </>
   ) : (
     <>

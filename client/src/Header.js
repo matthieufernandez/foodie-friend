@@ -21,7 +21,19 @@ const Header = () => {
   };
 
   const handleFridge = () => {
-    history.push("/fridge");
+    if (userStatus === "idle" && currentUser) {
+      history.push("/fridge");
+    } else {
+      console.log("sign in to access fridge");
+    }
+  };
+
+  const handleRecipe = () => {
+    if (userStatus === "idle" && currentUser) {
+      history.push("/recipelist");
+    } else {
+      console.log("sign in to access recipe book");
+    }
   };
 
   return (
@@ -29,7 +41,7 @@ const Header = () => {
       <Desktop>
         <Nav>
           <MenuIcons>
-            <RecipeIcon alt="Recipe Book" />
+            <RecipeIcon alt="Recipe Book" onClick={handleRecipe} />
 
             <FridgeIcon alt="Your Fridge" onClick={handleFridge} />
           </MenuIcons>

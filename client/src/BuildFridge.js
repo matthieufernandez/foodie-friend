@@ -2,9 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
 import { UserContext } from "./UserContext";
+import { FridgeContext } from "./FridgeContext";
 
 const BuildFridge = () => {
   const { currentUser } = useContext(UserContext);
+  const { setShowItems, showItems } = useContext(FridgeContext);
   const [queryItem, setQueryItem] = useState("");
   const [ingredients, setIngredients] = useState(null);
 
@@ -21,8 +23,9 @@ const BuildFridge = () => {
       body: JSON.stringify(item),
     })
       .then((res) => res.json())
+      .then(() => setShowItems(!showItems))
       .then((res) => {
-        if (res.message === "duplicate") {
+        if (res?.message === "duplicate") {
           console.log("duplicate");
         } else {
           console.log("success");
@@ -40,13 +43,9 @@ const BuildFridge = () => {
     }
   };
 
-  console.log(queryItem.value);
-  console.log(ingredients);
-
   return ingredients ? (
     <>
       <Wrapper>
-        Add items to your fridge
         <Main>
           <Searchbar onChange={handleChange} />
           <SearchButton onClick={handleClick}>Search</SearchButton>
@@ -78,6 +77,7 @@ const BuildFridge = () => {
           })}
         </ItemWrapper>
         <Logout />
+        <Background />
       </Wrapper>
     </>
   ) : (
@@ -85,6 +85,7 @@ const BuildFridge = () => {
       <Searchbar onChange={handleChange} />
       <SearchButton onClick={handleClick}>Search</SearchButton>
       <Logout />
+      <Background />
     </Wrapper>
   );
 };
@@ -134,6 +135,10 @@ const HomeItems = styled.div`
   :active {
     transform: scale(1.2);
   }
+
+  :hover {
+    opacity: 70%;
+  }
 `;
 
 const ItemName = styled.p`
@@ -144,6 +149,12 @@ const ItemImage = styled.img`
   border-radius: 15px;
   max-height: 150px;
   max-width: 150px;
+`;
+
+const Background = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: #e08043;
 `;
 
 export default BuildFridge;

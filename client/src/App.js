@@ -5,6 +5,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 import ProfileRegistration from "./ProfileRegistration";
 import Profile from "./Profile";
+import RecipeList from "./RecipeList";
 import BuildFridge from "./BuildFridge";
 import Registration from "./Registration";
 import Header from "./Header";
@@ -32,6 +33,9 @@ const App = () => {
         <Header />
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route path="/recipelist">
+          <RecipeList />
         </Route>
         <Route path="/fridge">
           <Fridge />

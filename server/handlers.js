@@ -11,11 +11,6 @@ const { MONGO_URI } = process.env;
 
 const { API_KEY } = process.env;
 
-// const options = {
-//   useNewUrlParser = true,
-//   useUnifiedTopology = true,
-// }
-
 const dbName = "foodie_friend";
 
 //Here we write our handlers for various requests to the API and to MongoDB
@@ -126,29 +121,63 @@ const updateFridge = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+};
 
-  const getFridge = async (req, res) => {
-    const client = new MongoClient(MONGO_URI);
-    let userEmail = req.params.checkEmail;
-    try {
-      await client.connect();
-      console.log("connecting to database");
+const getFridge = async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+  let userEmail = req.params.checkEmail;
+  try {
+    await client.connect();
+    console.log("connecting to database");
 
-      const db = client.db(dbName);
+    const db = client.db(dbName);
 
-      const result = await db.collection("users").findOne({
-        email: userEmail,
+    const result = await db.collection("users").findOne({
+      email: userEmail,
+    });
+    result
+      ? res.status(200).json({ result: result.fridge })
+      : res.status(501).json({ message: "error" });
+
+    await client.close();
+    console.log("disconnecting from database");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getRecipe = async (req, res) => {
+  let keyWord = req.params.keyWord;
+  try {
+    await fetch(
+      `https://api.spoonacular.com/recipes/complexSearch?query=${keyWord}&apiKey=${API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        res.status(200).json({ status: 200, result: data });
       });
-      result
-        ? res.status(200).json({ result: result.fridge })
-        : res.status(501).json({ message: "error" });
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({ status: 401, error: err });
+  }
+};
 
-      await client.close();
-      console.log("disconnecting from database");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const getRecipeInfo = async (req, res) => {
+  let id = req.params.id;
+  try {
+    await fetch(
+      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        res.status(200).json({ status: 200, result: data });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({ status: 401, error: err });
+  }
 };
 
 module.exports = {
@@ -156,4 +185,7 @@ module.exports = {
   getUser,
   getIngredient,
   updateFridge,
+  getFridge,
+  getRecipe,
+  getRecipeInfo,
 };
