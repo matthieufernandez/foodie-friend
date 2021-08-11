@@ -148,10 +148,10 @@ const AddButton = styled.button`
   max-height: auto;
   background-color: #1167e0;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 5px;
   border: none;
 
-  transition: 0.5s;
+  transition: 0.2s;
 
   &:hover {
     transform: scale(1.2);

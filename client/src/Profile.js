@@ -12,6 +12,8 @@ const Profile = () => {
         <ProfilePic alt="profile picture" src={currentUser.picture} />
         <NameArea>{currentUser.name}</NameArea>
       </ProfileArea>
+      <h2>Welcome to Foodie Friend!</h2>
+
       <Logout />
     </Wrapper>
   );
