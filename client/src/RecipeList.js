@@ -13,21 +13,41 @@ const RecipeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [recipeClick, setRecipeClick] = useState(false);
   const [myRecipes, setMyRecipes] = useState([]);
+  const [useItems, setUseItems] = useState(false);
+  let query = "";
+
+  fridge.map((item) => {
+    query = query + "," + item.name;
+  });
+
+  console.log(query);
 
   const handleChange = (event) => {
     setSearchTerm({ value: event.target.value });
-    console.log(searchTerm.value);
   };
 
   const handleSearch = () => {
-    if (!searchTerm.value) {
-      console.log("error");
+    if (!useItems) {
+      if (!searchTerm.value) {
+        console.log("error");
+      } else {
+        fetch(`/api/find/recipe/search/${searchTerm.value}`)
+          .then((res) => res.json())
+          .then((data) => setRecipeList(data.result.results));
+      }
+      setRecipeClick(true);
     } else {
-      fetch(`/api/find/recipe/search/${searchTerm.value}`)
+      fetch(`/api/find/recipe/use/${query}`)
         .then((res) => res.json())
-        .then((data) => setRecipeList(data.result.results));
+        .then((data) => setRecipeList(data.result));
     }
   };
+
+  // const handleSearchItems = () => {
+  //   fetch(`/api/find/recipe/use/${query}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setRecipeList(data.result.results));
+  // };
 
   const handleMyRecipes = () => {
     fetch(`/user/find/recipeList/${currentUser?.email}`)
@@ -36,14 +56,13 @@ const RecipeList = () => {
       .then(() => setRecipeClick(true));
   };
 
-  console.log(recipeList);
-  console.log(myRecipes);
-
   const onKeyPress = (e) => {
     if (e.which === 13) {
       handleSearch();
     }
   };
+
+  console.log(recipeList);
 
   return recipeList ? (
     <>
@@ -51,6 +70,12 @@ const RecipeList = () => {
         <Main>
           <Searchbar onChange={handleChange} onKeyPress={onKeyPress} />
           <SearchButton onClick={handleSearch}>Search</SearchButton>
+          <MyItems
+            type="checkbox"
+            onChange={() => {
+              setUseItems(!useItems);
+            }}
+          />
         </Main>
         <RecipesWrapper>
           {recipeList.map((recipe) => {
@@ -73,6 +98,7 @@ const RecipeList = () => {
 
           {myRecipes && (
             <>
+              My recipes:
               {myRecipes.map((recipe) => {
                 return (
                   <Link key={recipe.id} to={`./recipe/${recipe.id}`}>
@@ -95,6 +121,12 @@ const RecipeList = () => {
       <Main>
         <Searchbar onChange={handleChange} />
         <SearchButton onClick={handleSearch}>Search</SearchButton>
+        <MyItems
+          type="checkbox"
+          onChange={() => {
+            setUseItems(!useItems);
+          }}
+        />
       </Main>
       <MyRecipesArea>
         {!recipeClick && (
@@ -175,6 +207,31 @@ const RecipesList = styled.div`
   transition: all 0.2s;
   box-shadow: 10px 10px 5px 0px black;
 `;
+
+const ItemsArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 50vw;
+`;
+
+const FridgeItem = styled.li`
+  list-style-type: none;
+  padding: 5px;
+  border-radius: 25px;
+  border: solid black 2px;
+  background-color: #e08043;
+  box-shadow: 3px 4px 5px 0px #3b3d94;
+  cursor: pointer;
+  transition: all 0.7s;
+
+  :hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const MyItems = styled.input``;
 
 const MyRecipesArea = styled.div`
   display: flex;

@@ -9,7 +9,6 @@ const Fridge = () => {
     useContext(FridgeContext);
   const { currentUser, userStatus } = useContext(UserContext);
 
-  // if (fridge && fridge.length > 0) {
   return (
     <>
       <Wrapper>
@@ -22,7 +21,6 @@ const Fridge = () => {
             );
           })}
         </ItemsArea>
-        {/* <ShowItems onClick={handleShow}>Show items in your fridge:</ShowItems> */}
         <BuildFridge />
         <Background />
       </Wrapper>
@@ -31,6 +29,7 @@ const Fridge = () => {
 };
 
 const Wrapper = styled.div`
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,6 +40,8 @@ const Wrapper = styled.div`
 
 const ItemsArea = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   max-width: 50vw;
 `;

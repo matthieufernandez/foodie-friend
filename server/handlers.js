@@ -244,6 +244,23 @@ const getRecipeList = async (req, res) => {
   }
 };
 
+const getRecipeFridge = async (req, res) => {
+  let query = req.params.ingredients;
+
+  try {
+    await fetch(
+      `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${query}&apiKey=${API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        res.status(200).json({ status: 200, result: data });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({ status: 401, error: err });
+  }
+};
+
 module.exports = {
   createUser,
   getUser,
@@ -254,4 +271,5 @@ module.exports = {
   getRecipeInfo,
   updateRecipe,
   getRecipeList,
+  getRecipeFridge,
 };

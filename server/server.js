@@ -15,6 +15,7 @@ const {
   getRecipeInfo,
   updateRecipe,
   getRecipeList,
+  getRecipeFridge,
 } = require("./handlers");
 
 express()
@@ -43,6 +44,7 @@ express()
 
   //these are our calls to the API
   .put("/api/recipe/add/:checkEmail", updateRecipe)
+  .get("/api/find/recipe/use/:ingredients", getRecipeFridge)
   .get(`/api/fridge/search/:ingredient`, getIngredient)
   .get("/api/find/recipe/:id", getRecipeInfo)
   .get("/api/find/recipe/search/:keyWord", getRecipe)
