@@ -7,6 +7,7 @@ import ProfileRegistration from "./ProfileRegistration";
 import Profile from "./Profile";
 import RecipeList from "./RecipeList";
 import BuildFridge from "./BuildFridge";
+import Recipe from "./Recipe";
 import Registration from "./Registration";
 import Header from "./Header";
 import { UserContext } from "./UserContext";
@@ -31,21 +32,30 @@ const App = () => {
     <>
       <BrowserRouter>
         <Header />
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route path="/recipelist">
-          <RecipeList />
-        </Route>
-        <Route path="/fridge">
-          <Fridge />
-        </Route>
-        <Route exact path="/buildfridge">
-          <BuildFridge />
-        </Route>
         <Route path="/profile">
           <Profile />
         </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Switch>
+          <Route path="/recipelist">
+            <RecipeList />
+          </Route>
+          <Route exact path="/recipe/:id">
+            <Recipe />
+          </Route>
+          <Route path="/fridge">
+            <Fridge />
+          </Route>
+          {/* <Route exact path="/buildfridge">
+            <BuildFridge />
+          </Route> */}
+          <Route exact path="/logout">
+            <Logout />
+          </Route>
+        </Switch>
+
         <Route exact path="/">
           <Registration />
         </Route>

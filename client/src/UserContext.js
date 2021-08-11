@@ -16,9 +16,10 @@ export const UserContextProvider = ({ children }) => {
     fetch(`/user/find/${checkEmail}`)
       .then((res) => res.json())
       .then((data) => setCurrentUser(data.result))
+      .then(() => console.log(currentUser))
       .then(() => setUserStatus("idle"))
       .catch((err) => console.log(err));
-  }, [user]);
+  }, []);
 
   return (
     <UserContext.Provider

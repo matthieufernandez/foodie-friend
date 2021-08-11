@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from "react-router-dom";
+import Profile from "./Profile";
+import UserContext from "./UserContext";
 import ProfileRegistration from "./ProfileRegistration";
 
 const Registration = () => {
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
-  return !isAuthenticated ? (
+  let history = useHistory();
+  const { currentUser } = useContext(UserContext);
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+
+  if (currentUser) {
+    history.push("/profile");
+  }
+
+  return !isAuthenticated && !currentUser ? (
     <Wrapper>
       <Main>
         <WelcomeTitle>Welcome to Foodie Friend!</WelcomeTitle>

@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 const PORT = 4000;
-const API_KEY = `bedadb9759e1420fa813aa91f7ed5409`;
+const { API_KEY } = process.env;
 
 const {
   createUser,
@@ -13,6 +13,8 @@ const {
   getFridge,
   getRecipe,
   getRecipeInfo,
+  updateRecipe,
+  getRecipeList,
 } = require("./handlers");
 
 express()
@@ -37,11 +39,13 @@ express()
   .get("/user/find/:checkEmail", getUser)
   .put("/user/update/fridge/:checkEmail", updateFridge)
   .get("/user/find/fridge/:checkEmail", getFridge)
+  .get("/user/find/recipeList/:checkEmail", getRecipeList)
 
   //these are our calls to the API
+  .put("/api/recipe/add/:checkEmail", updateRecipe)
   .get(`/api/fridge/search/:ingredient`, getIngredient)
-  .get("/api/find/:id", getRecipeInfo)
-  .get("/api/find/recipe/:keyWord", getRecipe)
+  .get("/api/find/recipe/:id", getRecipeInfo)
+  .get("/api/find/recipe/search/:keyWord", getRecipe)
 
   // This is our last .get request. It handles incorrect requests and returns an error.
   .get("*", (req, res) => {

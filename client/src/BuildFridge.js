@@ -33,6 +33,12 @@ const BuildFridge = () => {
       });
   };
 
+  const onKeyPress = (e) => {
+    if (e.which === 13) {
+      handleClick();
+    }
+  };
+
   const handleClick = () => {
     if (!queryItem.value) {
       console.log("error");
@@ -47,7 +53,11 @@ const BuildFridge = () => {
     <>
       <Wrapper>
         <Main>
-          <Searchbar onChange={handleChange} />
+          <Searchbar
+            placeholder="Search for an item in your fridge!"
+            onChange={handleChange}
+            onKeyPress={onKeyPress}
+          />
           <SearchButton onClick={handleClick}>Search</SearchButton>
         </Main>
         <ItemWrapper>
@@ -104,8 +114,16 @@ const Main = styled.div`
   background-color: #e08043;
 `;
 
-const Searchbar = styled.textarea`
+const Searchbar = styled.input`
   background-color: #a7a8d9;
+  float: none;
+  display: block;
+  text-align: left;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  width: 20vw;
+  text-decoration: none;
 `;
 
 const ItemWrapper = styled.div`

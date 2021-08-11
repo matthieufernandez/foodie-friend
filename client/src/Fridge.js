@@ -9,32 +9,24 @@ const Fridge = () => {
     useContext(FridgeContext);
   const { currentUser, userStatus } = useContext(UserContext);
 
-  if (fridge && fridge.length > 0) {
-    return (
-      <>
-        <Wrapper>
-          <ItemsArea>
-            {fridge.map((item) => {
-              return (
-                <ul key={item.id}>
-                  <FridgeItem>{item.name}</FridgeItem>
-                </ul>
-              );
-            })}
-          </ItemsArea>
-          {/* <ShowItems onClick={handleShow}>Show items in your fridge:</ShowItems> */}
-          <BuildFridge />
-          <Background />
-        </Wrapper>
-      </>
-    );
-  }
-
+  // if (fridge && fridge.length > 0) {
   return (
-    <Wrapper>
-      <BuildFridge />
-      <Background />
-    </Wrapper>
+    <>
+      <Wrapper>
+        <ItemsArea>
+          {fridge.map((item) => {
+            return (
+              <ul key={item.id}>
+                <FridgeItem>{item.name}</FridgeItem>
+              </ul>
+            );
+          })}
+        </ItemsArea>
+        {/* <ShowItems onClick={handleShow}>Show items in your fridge:</ShowItems> */}
+        <BuildFridge />
+        <Background />
+      </Wrapper>
+    </>
   );
 };
 
@@ -53,7 +45,20 @@ const ItemsArea = styled.div`
   max-width: 50vw;
 `;
 
-const FridgeItem = styled.li``;
+const FridgeItem = styled.li`
+  list-style-type: none;
+  padding: 5px;
+  border-radius: 25px;
+  border: solid black 2px;
+  background-color: #e08043;
+  box-shadow: 3px 4px 5px 0px #3b3d94;
+  cursor: pointer;
+  transition: all 0.7s;
+
+  :hover {
+    transform: translateY(-5px);
+  }
+`;
 
 const ShowItems = styled.button`
   background-color: none;

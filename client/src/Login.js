@@ -23,6 +23,15 @@ const Login = () => {
       </LoginButton>
     )
   );
+  isAuthenticated && (
+    <LoginButton
+      onClick={loginWithRedirect({
+        redirect_uri: "http://localhost:3000/profile",
+      })}
+    >
+      Log In
+    </LoginButton>
+  );
 };
 
 const LoginButton = styled(CgProfile)`

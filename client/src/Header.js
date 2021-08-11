@@ -45,7 +45,7 @@ const Header = () => {
 
             <FridgeIcon alt="Your Fridge" onClick={handleFridge} />
           </MenuIcons>
-          <Title>Foodie Friend</Title>
+          <Title onClick={() => history.push("./")}>Foodie Friend</Title>
           <ProfileIcons>
             <ProfileIcon alt="Your Profile" onClick={handleProfile} />
           </ProfileIcons>
@@ -155,6 +155,12 @@ const Title = styled.h1`
   font-family: American Typewriter, serif;
   font-weight: 400;
   font-style: italic;
+  transition: 1.2s;
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(1.2);
+  }
 `;
 
 export default Header;
