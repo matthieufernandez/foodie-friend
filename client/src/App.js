@@ -48,9 +48,6 @@ const App = () => {
           <Route path="/fridge">
             <Fridge />
           </Route>
-          {/* <Route exact path="/buildfridge">
-            <BuildFridge />
-          </Route> */}
           <Route exact path="/logout">
             <Logout />
           </Route>

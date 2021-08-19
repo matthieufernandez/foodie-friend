@@ -1,18 +1,16 @@
 import React, { useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Logout from "./Logout";
 import { UserContext } from "./UserContext";
 
 const ProfileRegistration = () => {
   let history = useHistory();
-  let { user, isAuthenticated } = useAuth0();
+  let { user } = useAuth0();
   const { setCurrentUser, isRegistered, setIsRegistered } =
     useContext(UserContext);
 
-  user = { ...user, ...{ fridge: [], recipeBook: [], friends: [] } };
+  user = { ...user, ...{ fridge: [], recipeBook: [], friends: [] } }; // this data is sent to db as the full user profile.
 
   const handleRegister = (isRegistered) => {
     fetch("/user/create", {
