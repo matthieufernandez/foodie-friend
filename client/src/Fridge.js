@@ -9,23 +9,32 @@ const Fridge = () => {
     useContext(FridgeContext);
   const { currentUser, userStatus } = useContext(UserContext);
 
-  return (
-    <>
+  if (fridge) {
+    return (
+      <>
+        <Wrapper>
+          <ItemsArea>
+            {fridge.map((item) => {
+              return (
+                <ul key={item.id}>
+                  <FridgeItem>{item.name}</FridgeItem>
+                </ul>
+              );
+            })}
+          </ItemsArea>
+          <BuildFridge />
+          <Background />
+        </Wrapper>
+      </>
+    );
+  } else {
+    return (
       <Wrapper>
-        <ItemsArea>
-          {fridge.map((item) => {
-            return (
-              <ul key={item.id}>
-                <FridgeItem>{item.name}</FridgeItem>
-              </ul>
-            );
-          })}
-        </ItemsArea>
         <BuildFridge />
         <Background />
       </Wrapper>
-    </>
-  );
+    );
+  }
 };
 
 const Wrapper = styled.div`

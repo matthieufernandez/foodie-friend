@@ -37,6 +37,8 @@ const ProfileArea = styled.div`
 const ProfilePic = styled.img`
   border-radius: 50%;
   padding: 10px;
+  max-height: 150px;
+  max-width: 150px;
 `;
 
 const NameArea = styled.h1``;

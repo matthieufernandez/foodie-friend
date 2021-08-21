@@ -30,7 +30,7 @@ const ProfileRegistration = () => {
 
   return !isRegistered ? (
     <>
-      <img src={user.picture} />
+      <ProfilePicture src={user.picture} />
       <h2>{user.name}</h2>
       <p>{user.email}</p>
       <p>
@@ -70,6 +70,11 @@ const RegisterButton = styled.button`
     transform: scale(1.2);
     cursor: pointer;
   }
+`;
+
+const ProfilePicture = styled.img`
+  max-height: 100px;
+  max-width: 100px;
 `;
 
 export default ProfileRegistration;

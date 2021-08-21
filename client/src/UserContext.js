@@ -19,7 +19,7 @@ export const UserContextProvider = ({ children }) => {
       .then(() => console.log(currentUser))
       .then(() => setUserStatus("idle"))
       .catch((err) => console.log(err));
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider
