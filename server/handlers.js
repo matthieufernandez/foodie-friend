@@ -261,6 +261,14 @@ const getRecipeFridge = async (req, res) => {
   }
 };
 
+const deleteIngredient = async (req, res) => {
+  try {
+    //do something
+  } catch (err) {
+    console.log(err.stack);
+  }
+};
+
 module.exports = {
   createUser,
   getUser,
@@ -272,4 +280,5 @@ module.exports = {
   updateRecipe,
   getRecipeList,
   getRecipeFridge,
+  deleteIngredient,
 };
