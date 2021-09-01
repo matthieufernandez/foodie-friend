@@ -262,8 +262,14 @@ const getRecipeFridge = async (req, res) => {
 };
 
 const deleteIngredient = async (req, res) => {
+  let query = req.params.checkEmail;
   try {
-    //do something
+    await client.connect();
+    console.log("connecting to database...");
+
+    const db = client.db(dbName);
+
+    // result should use params to delete the ingredient from the user's account
   } catch (err) {
     console.log(err.stack);
   }
