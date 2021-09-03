@@ -9,8 +9,14 @@ const Fridge = () => {
     useContext(FridgeContext);
   const { currentUser, userStatus } = useContext(UserContext);
 
-  const handleDelete = () => {
-    // do something
+  const handleDelete = (item) => {
+    fetch("/user/update/fridge/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: currentUser.email, ingredient: item.name }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
 
   if (fridge) {
