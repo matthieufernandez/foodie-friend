@@ -17,6 +17,7 @@ const {
   getRecipeList,
   getRecipeFridge,
   deleteIngredient,
+  deleteRecipe,
 } = require("./handlers");
 
 express()
@@ -40,7 +41,8 @@ express()
   .post("/user/create", createUser) // this registers the user in the db
   .get("/user/find/:checkEmail", getUser)
   .put("/user/update/fridge/:checkEmail", updateFridge)
-  .delete("/user/update/fridge/delete/:checkEmail", deleteIngredient)
+  .delete("/user/update/fridge/delete", deleteIngredient)
+  .delete("/user/update/recipeList/delete", deleteRecipe)
   .get("/user/find/fridge/:checkEmail", getFridge)
   .get("/user/find/recipeList/:checkEmail", getRecipeList)
 

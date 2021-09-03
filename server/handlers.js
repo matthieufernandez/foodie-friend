@@ -262,14 +262,59 @@ const getRecipeFridge = async (req, res) => {
 };
 
 const deleteIngredient = async (req, res) => {
-  let query = req.params.checkEmail;
+  const client = new MongoClient(MONGO_URI);
+
+  const { query, ingredient } = req.body;
+
   try {
     await client.connect();
     console.log("connecting to database...");
 
     const db = client.db(dbName);
 
+    const result = await db.collection("users").findOneAndUpdate(
+      {
+        email: query,
+      },
+      { $pull: { fridge: { name: ingredient } } }
+    );
+
+    result
+      ? res.status(200).json({ status: 200, message: ingredient + " deleted" })
+      : res.status(400).json({ status: 400, message: "there was an error" });
+
+    await client.close();
+    console.log("disconnecting from database...");
+
     // result should use params to delete the ingredient from the user's account
+  } catch (err) {
+    console.log(err.stack);
+  }
+};
+
+const deleteRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+  const { query, recipe } = req.body;
+
+  try {
+    await client.connect();
+    console.log("connecting to database...");
+
+    const db = client.db(dbName);
+
+    const result = await db.collection("users").findOneAndUpdate(
+      {
+        email: query,
+      },
+      { $pull: { recipeBook: { title: recipe } } }
+    );
+
+    result
+      ? res.status(200).json({ status: 200, message: recipe + " deleted" })
+      : res.status(400).json({ status: 400, message: "there was an error" });
+
+    await client.close();
+    console.log("disconnecting from database...");
   } catch (err) {
     console.log(err.stack);
   }
@@ -287,4 +332,5 @@ module.exports = {
   getRecipeList,
   getRecipeFridge,
   deleteIngredient,
+  deleteRecipe,
 };

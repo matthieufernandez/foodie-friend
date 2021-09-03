@@ -9,6 +9,10 @@ const Fridge = () => {
     useContext(FridgeContext);
   const { currentUser, userStatus } = useContext(UserContext);
 
+  const handleDelete = () => {
+    // do something
+  };
+
   if (fridge) {
     return (
       <>
@@ -17,7 +21,9 @@ const Fridge = () => {
             {fridge.map((item) => {
               return (
                 <ul key={item.id}>
-                  <FridgeItem>{item.name}</FridgeItem>
+                  <FridgeItem onClick={() => handleDelete(item)}>
+                    {item.name}
+                  </FridgeItem>
                 </ul>
               );
             })}
