@@ -17,8 +17,8 @@ By adding recipes to your recipe list, you will have easy access to them if you 
 
 # Features Map
 
-- Deleting ingredients from your fridge
-- Deleting recipes from your reipe book
+- Deleting ingredients from your fridge - (DONE)
+- Deleting recipes from your recipe book
 - Adding ratings and comments for your recipes
 - Quality of life and cosmetic changes. e.g. confirmation pop-up when adding items to fridge
 - Responsive design for mobile devices
